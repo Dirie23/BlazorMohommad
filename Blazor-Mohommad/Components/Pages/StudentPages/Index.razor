@@ -1,0 +1,24 @@
+﻿@page "/students"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject Blazor_Mohommad.Data.Blazor_MohommadContext DB
+@using Blazor_Mohommad
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="students/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Student">
+    <PropertyColumn Property="student => student.Name" />
+    <PropertyColumn Property="student => student.Email" />
+    <PropertyColumn Property="student => student.BirthDate" />
+
+    <TemplateColumn Context="student">
+        <a href="@($"students/edit?id={student.Id}")">Edit</a> |
+        <a href="@($"students/details?id={student.Id}")">Details</a> |
+        <a href="@($"students/delete?id={student.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

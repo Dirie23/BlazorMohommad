@@ -1,0 +1,53 @@
+﻿@page "/students/create"
+@inject Blazor_Mohommad.Data.Blazor_MohommadContext DB
+@using Blazor_Mohommad
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>Student</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Student" OnValidSubmit="AddStudent" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Student.Name" class="form-control" /> 
+                <ValidationMessage For="() => Student.Name" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label> 
+                <InputText id="email" @bind-Value="Student.Email" class="form-control" /> 
+                <ValidationMessage For="() => Student.Email" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="birthdate" class="form-label">BirthDate:</label> 
+                <InputDate id="birthdate" @bind-Value="Student.BirthDate" class="form-control" /> 
+                <ValidationMessage For="() => Student.BirthDate" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/students">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Student Student { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddStudent()
+    {
+        DB.Student.Add(Student);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/students");
+    }
+}
